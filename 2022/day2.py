@@ -1,8 +1,4 @@
-from commonpy import fileio, string_utils, list_utils
-import more_itertools
-import itertools
-
-
+from commonpy import fileio
 
 
 def points_for_second_1(first, second) -> int:
