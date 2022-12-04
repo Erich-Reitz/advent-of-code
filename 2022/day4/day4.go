@@ -2,8 +2,7 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"strconv"
+	"github.com/Erich-Reitz/commonGo"
 	"strings"
 )
 
@@ -13,45 +12,11 @@ func check(e error) {
 	}
 }
 
-func readFileAsString(filepath string) string {
-	dat, err := os.ReadFile(filepath)
-	check(err)
-	return string(dat)
-}
-
-func MinOf(vars ...int) int {
-	min := vars[0]
-
-	for _, i := range vars {
-		if min > i {
-			min = i
-		}
-	}
-
-	return min
-}
-
-func MaxOf(vars ...int) int {
-	min := vars[0]
-
-	for _, i := range vars {
-		if min < i {
-			min = i
-		}
-	}
-
-	return min
-}
-
 func doesRangeContainOther(elf1begin, elf1end, elf2begin, elf2end int) bool {
-	allMin := MinOf(elf1begin, elf1end, elf2begin, elf2end)
-	allMax := MaxOf(elf1begin, elf1end, elf2begin, elf2end)
+	allMin := advent.MinOf(elf1begin, elf1end, elf2begin, elf2end)
+	allMax := advent.MaxOf(elf1begin, elf1end, elf2begin, elf2end)
 
-	if (allMin == elf1begin && allMax == elf1end) || (allMin == elf2begin && allMax == elf2end) {
-		return true
-	}
-
-	return false
+	return (allMin == elf1begin && allMax == elf1end) || (allMin == elf2begin && allMax == elf2end)
 }
 
 func doAnyRangesOverlap(elf1begin, elf1end, elf2begin, elf2end int) bool {
@@ -64,15 +29,6 @@ func doAnyRangesOverlap(elf1begin, elf1end, elf2begin, elf2end int) bool {
 	return false
 }
 
-func splitTwoIntsByString(line, splitBy string) (int, int) {
-	splitString := strings.Split(line, splitBy)
-	num1, err := strconv.Atoi(splitString[0])
-	check(err)
-	num2, err := strconv.Atoi(splitString[1])
-	check(err)
-	return num1, num2
-}
-
 func part1(contents string) {
 	lines := strings.Split(contents, "\n")
 	score := 0
@@ -81,8 +37,8 @@ func part1(contents string) {
 			continue
 		}
 		assigments := strings.Split(element, ",")
-		elf1begin, elf1end := splitTwoIntsByString(assigments[0], "-")
-		elf2begin, elf2end := splitTwoIntsByString(assigments[1], "-")
+		elf1begin, elf1end := advent.SplitTwoIntsByString(assigments[0], "-")
+		elf2begin, elf2end := advent.SplitTwoIntsByString(assigments[1], "-")
 		if doesRangeContainOther(elf1begin, elf1end, elf2begin, elf2end) {
 			score = score + 1
 		}
@@ -98,8 +54,8 @@ func part2(contents string) {
 			continue
 		}
 		assigments := strings.Split(element, ",")
-		elf1begin, elf1end := splitTwoIntsByString(assigments[0], "-")
-		elf2begin, elf2end := splitTwoIntsByString(assigments[1], "-")
+		elf1begin, elf1end := advent.SplitTwoIntsByString(assigments[0], "-")
+		elf2begin, elf2end := advent.SplitTwoIntsByString(assigments[1], "-")
 		if doAnyRangesOverlap(elf1begin, elf1end, elf2begin, elf2end) {
 			score = score + 1
 		}
@@ -108,7 +64,7 @@ func part2(contents string) {
 }
 
 func main() {
-	data := readFileAsString("input.txt")
+	data := advent.ReadFileAsString("input.txt")
 	part1(data)
 	part2(data)
 }
