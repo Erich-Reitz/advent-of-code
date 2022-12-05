@@ -32,13 +32,10 @@ func doAnyRangesOverlap(elf1begin, elf1end, elf2begin, elf2end int) bool {
 func part1(contents string) {
 	lines := strings.Split(contents, "\n")
 	score := 0
-	for _, element := range lines {
-		if element == "" {
-			continue
-		}
-		assigments := strings.Split(element, ",")
-		elf1begin, elf1end := advent.SplitTwoIntsByString(assigments[0], "-")
-		elf2begin, elf2end := advent.SplitTwoIntsByString(assigments[1], "-")
+	for _, line := range lines {
+		var elf1begin, elf1end, elf2begin, elf2end int
+		_, err := fmt.Sscanf(line, "%d-%d,%d-%d", &elf1begin, &elf1end, &elf2begin, &elf2end)
+		check(err)
 		if doesRangeContainOther(elf1begin, elf1end, elf2begin, elf2end) {
 			score = score + 1
 		}
@@ -49,13 +46,10 @@ func part1(contents string) {
 func part2(contents string) {
 	lines := strings.Split(contents, "\n")
 	score := 0
-	for _, element := range lines {
-		if element == "" {
-			continue
-		}
-		assigments := strings.Split(element, ",")
-		elf1begin, elf1end := advent.SplitTwoIntsByString(assigments[0], "-")
-		elf2begin, elf2end := advent.SplitTwoIntsByString(assigments[1], "-")
+	for _, line := range lines {
+		var elf1begin, elf1end, elf2begin, elf2end int
+		_, err := fmt.Sscanf(line, "%d-%d,%d-%d", &elf1begin, &elf1end, &elf2begin, &elf2end)
+		check(err)
 		if doAnyRangesOverlap(elf1begin, elf1end, elf2begin, elf2end) {
 			score = score + 1
 		}
