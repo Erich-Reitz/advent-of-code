@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/Erich-Reitz/commonGo"
 	"reflect"
-	"regexp"
 	"strings"
+	"unicode"
 )
 
 func check(e error) {
@@ -14,17 +14,13 @@ func check(e error) {
 	}
 }
 
-func isUpperCaseCharacter(str string) bool {
-	matched, _ := regexp.MatchString(`[A-Z]`, str)
-	return matched
-}
+
 
 func parseCargoInitialStateLine(line string) map[int]string {
 	result_map := make(map[int]string)
-	for index, run := range line {
-		char := string(run)
-		if isUpperCaseCharacter(char) {
-			result_map[((index+2)/4)+1] = char
+	for index, char := range line {
+		if unicode.IsUpper(char) {
+			result_map[((index+2)/4)+1] = string(char)
 		}
 	}
 	return result_map
