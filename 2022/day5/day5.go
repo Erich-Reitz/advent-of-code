@@ -14,8 +14,6 @@ func check(e error) {
 	}
 }
 
-
-
 func parseCargoInitialStateLine(line string) map[int]string {
 	result_map := make(map[int]string)
 	for index, char := range line {
@@ -60,7 +58,7 @@ func printLastEntryOfEachCargoStack(cargo map[int][]string) {
 	for i := 1; i <= 9; i++ {
 		values := cargo[i]
 		if len(values) != 0 {
-			fmt.Print(cargo[i][len(cargo[i])-1])
+			fmt.Print(values[len(values)-1])
 		}
 	}
 }
