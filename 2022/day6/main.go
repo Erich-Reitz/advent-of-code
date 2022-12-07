@@ -5,50 +5,40 @@ import (
 	"github.com/Erich-Reitz/commonGo"
 )
 
-func removeLeftMostElement(queue []string, counts map[string]int) ([]string, map[string]int) {
-	topElement := queue[0]
-	counts[topElement] -= 1
-	queue = queue[1:]
-	return queue, counts
-}
-
-func addElementToRight(queue []string, counts map[string]int, element string) ([]string, map[string]int) {
-	queue = append(queue, element)
-	counts[element] += 1
-	return queue, counts
-}
-
-func allElementsInQueueAreUnique(queue []string, counts map[string]int) bool {
-	allUnique := true
-	for _, item := range queue {
-		if counts[item] != 1 {
-			allUnique = false
-		}
+func fleshFreqMapWithFirstNCharacteres(line string, queueLength int) map[string]int {
+	freqMap := make(map[string]int, 0)
+	for i := 0; i < queueLength; i++ {
+		freqMap[string(line[i])] += 1
 	}
-	return allUnique
+	return freqMap
 }
 
 func firstIndexWhereWindowIsAllUnqiueChars(line string, queueLength int) int {
-	queue := make([]string, 0)
-	counts := make(map[string]int)
-	for index, char := range line {
-		if len(queue) >= queueLength {
-			queue, counts = removeLeftMostElement(queue, counts)
+	freqMap := fleshFreqMapWithFirstNCharacteres(line, queueLength)
+	leftIndex := 0
+	rightIndex := queueLength
+	for ; rightIndex < len(line); rightIndex++ {
+		if len(freqMap) == queueLength {
+			return rightIndex
 		}
-		queue, counts = addElementToRight(queue, counts, string(char))
-		if len(queue) >= queueLength && allElementsInQueueAreUnique(queue, counts) {
-			return index
+		leftMostElement := string(line[leftIndex])
+		freqMap[leftMostElement] -= 1
+		leftIndex += 1
+		if freqMap[leftMostElement] == 0 {
+			delete(freqMap, leftMostElement)
 		}
+		rightMostElement := string(line[rightIndex])
+		freqMap[rightMostElement] += 1
 	}
 	return -1
 }
 
 func part1(line string) {
-	fmt.Println(firstIndexWhereWindowIsAllUnqiueChars(line, 4) + 1)
+	fmt.Println(firstIndexWhereWindowIsAllUnqiueChars(line, 4))
 }
 
 func part2(line string) {
-	fmt.Println(firstIndexWhereWindowIsAllUnqiueChars(line, 14) + 1)
+	fmt.Println(firstIndexWhereWindowIsAllUnqiueChars(line, 14))
 }
 
 func main() {
