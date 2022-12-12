@@ -150,7 +150,6 @@ func part2(contents string) {
 		}
 		crtGunRow := crtGunPosition / 40 % 6
 		crtGunCol := crtGunPosition % 40
-		fmt.Println(crtGunPosition, crtGunRow, crtGunCol)
 		draw(crtScreen, crtGunRow, crtGunCol, cpu.Registers[0].Value)
 
 		if len(cpu.pendingOperations()) == 0 {
