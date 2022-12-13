@@ -2,7 +2,9 @@ import math
 from dataclasses import dataclass
 from functools import reduce
 
-from commonpy import fileio, string_utils
+from commonpy import fileio
+from commonpy.string_utils import strip_integers_split_by_commas
+from commonpy.list_utils import product
 
 
 @dataclass
@@ -29,7 +31,7 @@ def parse_monkey_input(input: str) -> dict[int, Monkey]:
         for line in block.split("\n"):
             line = line.strip()
             if line.startswith("Starting items:"):
-                items = string_utils.strip_integers_split_by_commas(line.split(": ")[1])
+                items = strip_integers_split_by_commas(line.split(": ")[1])
             if line.startswith("Operation:"):
                 operation = line.split(": ")[1]
             if line.startswith("Test:"):
@@ -73,7 +75,7 @@ def part1(input: str):
     items_inspected_per_monkeys = sorted(
         [monkey.inspected_items for monkey in monkeys.values()], reverse=True
     )
-    return reduce(lambda x, y: x * y, items_inspected_per_monkeys[0:2])
+    return product(items_inspected_per_monkeys[0:2])
 
 
 def part2(input: str):
@@ -102,7 +104,7 @@ def part2(input: str):
     items_inspected_per_monkeys = sorted(
         [monkey.inspected_items for monkey in monkeys.values()], reverse=True
     )
-    return reduce(lambda x, y: x * y, items_inspected_per_monkeys[0:2])
+    return product(items_inspected_per_monkeys[0:2])
 
 
 if __name__ == "__main__":
